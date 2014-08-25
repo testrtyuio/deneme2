@@ -1,9 +1,22 @@
 Rails.application.routes.draw do
 
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+      #delete :destroy
+    end
+  end
+  #match 'users/:id' => 'users#destroy', :via => :delete, :as => :admin_destroy_user
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :posts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   root  'static_pages#home'
+
   get 'signup',  to: 'users#new',            as: 'signup'
+  get 'signin',  to: 'sessions#new',         as: 'signin'
+  delete 'signout', to: 'sessions#destroy'
+ #delete 'destroy', to: 'users#destroy', as:'destroy'
 
   get 'help',    to: 'static_pages#help',    as: 'help'
   get 'about',   to: 'static_pages#about',   as: 'about'
