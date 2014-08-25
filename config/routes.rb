@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+#delete 'user_destroy', to: 'users#destroy' 
 
   resources :users do
     member do

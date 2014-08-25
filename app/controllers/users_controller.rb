@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
+   before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
+   before_action :correct_user, only: [:edit, :update]
+   before_action :admin_user, only: :destroy
 
   def index
     @users = User.paginate(page: params[:page])
@@ -48,6 +48,7 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User deleted."
     redirect_to users_url
+    # render 'new'
   end
 
 
@@ -68,7 +69,9 @@ class UsersController < ApplicationController
   private
       
       def user_params
-        params.require(:user).permit(:name, :email, :password, :password_confirmation)
+        if params[:user].present?
+          params.require(:user).permit(:name, :email, :password, :password_confirmation)# if params[:id]
+        end
       end
 
       # Before filters
